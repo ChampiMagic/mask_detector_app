@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                 : Align(
                     alignment: Alignment.center,
                     child: AspectRatio(
-                      aspectRatio: cameraController.value.aspectRatio,
+                      aspectRatio: 16.0 / 16.0,
                       child: CameraPreview(cameraController),
                     ),
                   ),
