@@ -1,5 +1,6 @@
 import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_detector_app/Pages/home_page.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});
@@ -33,6 +34,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
         ),
         textAlign: TextAlign.center,
       ),
+      navigator: const HomePage(),
     );
   }
 }
