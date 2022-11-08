@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:tflite/tflite.dart';
 
 import '../main.dart';
 
@@ -30,15 +31,50 @@ class _HomePageState extends State<HomePage> {
           if (!isWorking) {
             isWorking = true;
             cameraImage = imageFromStream;
+            runModelOnFrame();
           }
         });
       });
     });
   }
 
+  runModelOnFrame() async {
+    if (cameraImage != null) {
+      var recognitions = await Tflite.runModelOnFrame(
+        bytesList: cameraImage.planes.map((plane) => plane.bytes).toList(),
+        imageHeight: cameraImage.height,
+        imageWidth: cameraImage.width,
+        imageMean: 127.5,
+        imageStd: 127.5,
+        rotation: 90,
+        numResults: 1,
+        threshold: 0.1,
+        asynch: true,
+      );
+
+      result = '';
+
+      recognitions?.forEach((response) {
+        result += response["label"] + "\n";
+      });
+
+      setState(() {
+        result;
+      });
+
+      isWorking = false;
+    }
+  }
+
+  loadModel() async {
+    await Tflite.loadModel(
+        model: 'assets/model.tflite', labels: 'assets/labels.txt');
+  }
+
   @override
   void initState() {
     initCamera();
+    loadModel();
     super.initState();
   }
 
