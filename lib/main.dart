@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mask_detector_app/Pages/splash_screen_page.dart';
+import 'package:camera/camera.dart';
 
-void main() {
+late List<CameraDescription> camera;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  camera = await availableCameras();
+
   runApp(const MyApp());
 }
 
